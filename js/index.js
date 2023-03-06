@@ -1,4 +1,4 @@
-let COUNT = 50,
+let COUNT = 20,
   DELAY_TIME = 0,
   SHOW_NUMBER = 0,
   IS_SORTING = 0
@@ -9,12 +9,13 @@ let a = Array(COUNT).fill(0)
 const mainDom = document.querySelector('main')
 const barCountInput = document.querySelector('#count')
 const delayInput = document.querySelector('#delay')
+const buttonsContainer = document.querySelector('#buttons')
 
 barCountInput.value = COUNT
 delayInput.value = DELAY_TIME
 
 barCountInput.onchange = (e) => {
-  if(!IS_SORTING) {
+  if (!IS_SORTING) {
     COUNT = +e.target.value
     a = Array(COUNT).fill(0)
     randomize()
@@ -26,9 +27,21 @@ delayInput.onchange = (e) => {
 }
 
 // ===================== Helpers =====================
-async function render(ar = a) {
+
+const helpers = {
+  render: async () => {
+    mainDom.innerHTML = ''
+    ar.forEach((e, i) => {
+      mainDom.innerHTML += `<div id="bar-${i}" class="bar" style="height: ${e}%">${
+        SHOW_NUMBER ? e : ''
+      }</div>`
+    })
+  },
+}
+
+async function render() {
   mainDom.innerHTML = ''
-  ar.forEach((e, i) => {
+  a.forEach((e, i) => {
     mainDom.innerHTML += `<div id="bar-${i}" class="bar" style="height: ${e}%">${
       SHOW_NUMBER ? e : ''
     }</div>`
@@ -122,19 +135,75 @@ async function bubbleSort() {
   render()
 }
 
-// MAIN
-async function startSort(type) {
-  document.getElementById('selection').disabled = true
-  document.getElementById('bubble').disabled = true
+async function oddEvenSort() {
+  IS_SORTING = 1
 
-  if (type === 'selection') {
-    await selectionSort()
-  } else if (type === 'bubble') {
-    await bubbleSort()
+  while (true) {
+
+    let c = false
+
+    for (let i = 1; i <= COUNT - 2; i += 2) {
+      if (a[i] > a[i + 1]) {
+        await sleep()
+        swap(i, i + 1)
+        setBarHeight(i, a[i])
+        setBarHeight(i + 1, a[i + 1])
+        c = true
+      }
+
+      setBarColor(i + 1, 1)
+    }
+
+    for (let i = 0; i <= COUNT - 2; i += 2) {
+      await sleep()
+      if (a[i] > a[i + 1]) {
+        swap(i, i + 1)
+        setBarHeight(i, a[i])
+        setBarHeight(i + 1, a[i + 1])
+        c = true
+      }
+
+      setBarColor(i + 1, 1)
+    }
+
+    if(!c) break
   }
 
-  document.getElementById('selection').disabled = false
-  document.getElementById('bubble').disabled = false
+  setBarColor(COUNT - 1, 0)
+
+  IS_SORTING = 0
+
+  render()
+}
+
+// MAIN
+
+const algosMap = {
+  selection: selectionSort,
+  bubble: bubbleSort,
+  'Odd Even': oddEvenSort,
+}
+
+;(function initButtons() {
+  Object.entries(algosMap).forEach(([name, fn]) => {
+    buttonsContainer.innerHTML += `
+      <button
+        algo="${name}"
+        onClick="startSort('${name}')"
+        class="px-4 py-2 text-sm bg-blue-500 capitalize hover:bg-blue-600 text-white disabled:bg-blue-800 disabled:cursor-not-allowed"
+      >
+        ${name} Sort
+      </button>
+    `
+  })
+})()
+
+async function startSort(algo) {
+  const algoButtons = document.querySelectorAll('button')
+
+  algoButtons.forEach((ele) => (ele.disabled = true))
+  await algosMap[algo]()
+  algoButtons.forEach((ele) => (ele.disabled = false))
 }
 
 randomize()

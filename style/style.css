@@ -26,3 +26,7 @@ main {
 .bar:nth-child(even) {
   background-color: #0e8388;
 }
+
+button {
+  @apply px-4 py-2 text-sm bg-blue-500 capitalize hover:bg-blue-600 text-white disabled:bg-blue-800 disabled:cursor-not-allowed
+}
