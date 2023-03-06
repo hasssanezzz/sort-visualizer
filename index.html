@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/output.css" />
+    <title>sort.exe by Hassan Ezz</title>
+  </head>
+  <body>
+    <section class="p-5 space-y-5">
+      <div class="flex gap-5">
+        <div class="flex flex-col gap-2">
+          <label for="">Bar count</label>
+          <input id="count" type="number" class="w-full max-w-[100px] border bg-gray-200" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="">Delay</label>
+          <input id="delay" type="number" class="w-full max-w-[100px] border bg-gray-200" />
+        </div>
+      </div>
+
+      <div class="flex divide-x-2 divide-black">
+        <button
+          id="selection"
+          class="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white disabled:bg-blue-800 disabled:cursor-not-allowed"
+          onclick="startSort('selection')"
+        >
+          Selection Sort
+        </button>
+        <button
+          id="bubble"
+          class="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white disabled:bg-blue-800 disabled:cursor-not-allowed"
+          onclick="startSort('bubble')"
+        >
+          Bubble Sort
+        </button>
+
+        <button
+          class="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white disabled:bg-blue-800 disabled:cursor-not-allowed"
+          onclick="randomize()"
+        >
+          Randomize
+        </button>
+      </div>
+    </section>
+
+    <main>
+    </main>
+
+    <script src="./js/index.js"></script>
+  </body>
+</html>
