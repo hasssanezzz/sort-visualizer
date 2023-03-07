@@ -36,14 +36,6 @@ showNumbersCheckbox.onclick = (e) => {
 // ===================== Helpers =====================
 
 const helpers = {
-  render: async () => {
-    mainDom.innerHTML = ''
-    ar.forEach((e, i) => {
-      mainDom.innerHTML += `<div id="bar-${i}" class="bar" style="height: ${e}%">${
-        SHOW_NUMBERS ? e : ''
-      }</div>`
-    })
-  },
   getInsertionPosition: (size, num, arr = a) => {
     let left = 0,
       right = size - 1,
