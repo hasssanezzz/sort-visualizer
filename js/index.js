@@ -37,6 +37,21 @@ const helpers = {
       }</div>`
     })
   },
+  getInsertionPosition: (size, num, arr = a) => {
+    let left = 0,
+      right = size - 1,
+      mid
+
+    while (left <= right) {
+      mid = Math.floor((left + right) / 2)
+
+      if (arr[mid] === num) return mid
+      else if (arr[mid] < num) left = mid + 1
+      else right = mid - 1
+    }
+
+    return left
+  },
 }
 
 async function render() {
@@ -71,8 +86,9 @@ function randomize() {
   render()
 }
 
-async function sleep() {
-  await new Promise((r) => setTimeout(r, DELAY_TIME))
+async function sleep(time = DELAY_TIME) {
+  // if(time > 0)
+  await new Promise((r) => setTimeout(r, time))
 }
 
 function swap(xp, yp) {
@@ -139,7 +155,6 @@ async function oddEvenSort() {
   IS_SORTING = 1
 
   while (true) {
-
     let c = false
 
     for (let i = 1; i <= COUNT - 2; i += 2) {
@@ -166,7 +181,7 @@ async function oddEvenSort() {
       setBarColor(i + 1, 1)
     }
 
-    if(!c) break
+    if (!c) break
   }
 
   setBarColor(COUNT - 1, 0)
@@ -176,12 +191,35 @@ async function oddEvenSort() {
   render()
 }
 
+async function insertionSort() {
+  for (let i = 1; i < COUNT; i++) {
+    const num = a[i]
+    const position = helpers.getInsertionPosition(i, num)
+    const numb = a[position]
+
+    setBarColor(i, 1)
+
+    await sleep()
+
+    a.splice(i, 1)
+    a.splice(position, 0, num)
+
+    setBarHeight(i, numb)
+    setBarHeight(position, a[position])
+
+    render()
+
+    console.log(a)
+  }
+}
+
 // MAIN
 
 const algosMap = {
   selection: selectionSort,
   bubble: bubbleSort,
   'Odd Even': oddEvenSort,
+  'Binary insertion': insertionSort,
 }
 
 ;(function initButtons() {
