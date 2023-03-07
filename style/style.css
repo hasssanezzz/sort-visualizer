@@ -8,7 +8,7 @@ body {
 }
 
 section {
-  @apply h-[200px];
+  @apply min-h-[200px];
 }
 
 main {

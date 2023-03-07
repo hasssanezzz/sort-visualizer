@@ -1,6 +1,6 @@
-let COUNT = 20,
+let COUNT = 50,
   DELAY_TIME = 0,
-  SHOW_NUMBER = 0,
+  SHOW_NUMBERS = 0,
   IS_SORTING = 0
 
 let a = Array(COUNT).fill(0)
@@ -10,6 +10,7 @@ const mainDom = document.querySelector('main')
 const barCountInput = document.querySelector('#count')
 const delayInput = document.querySelector('#delay')
 const buttonsContainer = document.querySelector('#buttons')
+const showNumbersCheckbox = document.querySelector('#show-numbers')
 
 barCountInput.value = COUNT
 delayInput.value = DELAY_TIME
@@ -18,12 +19,18 @@ barCountInput.onchange = (e) => {
   if (!IS_SORTING) {
     COUNT = +e.target.value
     a = Array(COUNT).fill(0)
+    render()
     randomize()
   }
 }
 
 delayInput.onchange = (e) => {
   DELAY_TIME = +e.target.value
+}
+
+showNumbersCheckbox.onclick = (e) => {
+  SHOW_NUMBERS = e.target.checked
+  render()
 }
 
 // ===================== Helpers =====================
@@ -33,7 +40,7 @@ const helpers = {
     mainDom.innerHTML = ''
     ar.forEach((e, i) => {
       mainDom.innerHTML += `<div id="bar-${i}" class="bar" style="height: ${e}%">${
-        SHOW_NUMBER ? e : ''
+        SHOW_NUMBERS ? e : ''
       }</div>`
     })
   },
@@ -58,7 +65,7 @@ async function render() {
   mainDom.innerHTML = ''
   a.forEach((e, i) => {
     mainDom.innerHTML += `<div id="bar-${i}" class="bar" style="height: ${e}%">${
-      SHOW_NUMBER ? e : ''
+      SHOW_NUMBERS ? e : ''
     }</div>`
   })
 }
@@ -67,7 +74,7 @@ const gen = (min = 1, max = 100) => Math.floor(Math.random() * max - min) + min
 
 function setBarHeight(index, height) {
   document.querySelector(`#bar-${index}`).style.height = height + '%'
-  SHOW_NUMBER && (document.querySelector(`#bar-${index}`).innerHTML = height)
+  SHOW_NUMBERS && (document.querySelector(`#bar-${index}`).innerHTML = height)
 }
 
 function setBarColor(index, active) {
@@ -79,11 +86,12 @@ function setBarColor(index, active) {
     : ''
 }
 
+render()
 function randomize() {
   a.forEach((e, i) => {
     a[i] = gen()
+    setBarHeight(i, a[i])
   })
-  render()
 }
 
 async function sleep(time = DELAY_TIME) {
@@ -116,7 +124,7 @@ async function selectionSort() {
     swap(i, mini)
   }
 
-  setBarColor(COUNT - 1, 0)
+  setBarColor(0, 0)
 
   IS_SORTING = 0
 }
@@ -144,7 +152,7 @@ async function bubbleSort() {
     if (!c) break
   }
 
-  setBarColor(COUNT - 1, 0)
+  setBarColor(0, 0)
 
   IS_SORTING = 0
 
@@ -170,8 +178,8 @@ async function oddEvenSort() {
     }
 
     for (let i = 0; i <= COUNT - 2; i += 2) {
-      await sleep()
       if (a[i] > a[i + 1]) {
+        await sleep()
         swap(i, i + 1)
         setBarHeight(i, a[i])
         setBarHeight(i + 1, a[i + 1])
@@ -184,14 +192,14 @@ async function oddEvenSort() {
     if (!c) break
   }
 
-  setBarColor(COUNT - 1, 0)
+  setBarColor(0, 0)
 
   IS_SORTING = 0
 
   render()
 }
 
-async function insertionSort() {
+async function binartInsertionSort() {
   for (let i = 1; i < COUNT; i++) {
     const num = a[i]
     const position = helpers.getInsertionPosition(i, num)
@@ -208,9 +216,87 @@ async function insertionSort() {
     setBarHeight(position, a[position])
 
     render()
-
-    console.log(a)
   }
+}
+
+async function insertionSort() {
+  IS_SORTING = 1
+
+  let i,
+    key,
+    j,
+    n = COUNT
+
+  for (i = 1; i < n; i++) {
+    await sleep()
+
+    key = a[i]
+    j = i - 1
+
+    setBarColor(i, 1)
+
+    while (j >= 0 && a[j] > key) {
+      await sleep()
+
+      setBarColor(j, 1)
+
+      a[j + 1] = a[j]
+      setBarHeight(j + 1, a[j + 1])
+      j = j - 1
+    }
+
+    a[j + 1] = key
+
+    setBarHeight(j + 1, key)
+  }
+
+  IS_SORTING = 0
+  setBarColor(0, 0)
+}
+
+async function cocktailShakerSort() {
+  let swapped = true
+  let start = 0
+  let end = a.length
+
+  while (swapped) {
+    swapped = false
+
+    for (let i = start; i < end - 1; ++i) {
+      setBarColor(i, 1)
+      if (a[i] > a[i + 1]) {
+        await sleep()
+
+        swap(i, i + 1)
+
+        setBarHeight(i, a[i])
+        setBarHeight(i + 1, a[i + 1])
+
+        swapped = true
+      }
+    }
+
+    if (!swapped) break
+    ;(swapped = false), end--
+
+    for (let i = end - 1; i >= start; i--) {
+      setBarColor(i, 1)
+
+      if (a[i] > a[i + 1]) {
+        await sleep()
+
+        swap(i, i + 1)
+
+        setBarHeight(i, a[i])
+        setBarHeight(i + 1, a[i + 1])
+        swapped = true
+      }
+    }
+
+    start++
+  }
+
+  setBarColor(0, 0)
 }
 
 // MAIN
@@ -219,7 +305,27 @@ const algosMap = {
   selection: selectionSort,
   bubble: bubbleSort,
   'Odd Even': oddEvenSort,
-  'Binary insertion': insertionSort,
+  Cocktail: cocktailShakerSort,
+  insertion: insertionSort,
+  'Binary Insertion': binartInsertionSort,
+}
+
+const algosTCMap = {
+  selection: selectionSort,
+  bubble: bubbleSort,
+  'Odd Even': oddEvenSort,
+  Cocktail: cocktailShakerSort,
+  insertion: insertionSort,
+  'Binary Insertion': binartInsertionSort,
+}
+
+const algoTCMap = {
+  selection: "n*n",
+  bubble: "n*n",
+  'Odd Even': "n*n",
+  Cocktail: "n*n",
+  insertion: "n*n",
+  'Binary Insertion': "n*log(n)",
 }
 
 ;(function initButtons() {
@@ -240,6 +346,7 @@ async function startSort(algo) {
   const algoButtons = document.querySelectorAll('button')
 
   algoButtons.forEach((ele) => (ele.disabled = true))
+  document.querySelector("#tc").innerHTML = algoTCMap[algo]
   await algosMap[algo]()
   algoButtons.forEach((ele) => (ele.disabled = false))
 }

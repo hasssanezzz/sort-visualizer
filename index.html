@@ -26,11 +26,23 @@
             class="w-full max-w-[100px] border bg-gray-200"
           />
         </div>
+        <div class="flex flex-col gap-2">
+          <label for="">Show numbers</label>
+          <input
+            id="show-numbers"
+            type="checkbox"
+            class="w-full max-w-[100px] border bg-gray-200"
+          />
+        </div>
       </div>
 
-      <div id="buttons" class="flex divide-x-2 divide-black">
+      <div
+        id="buttons"
+        class="flex gap-1 divide-black flex-wrap text-sm"
+        style="z-index: 100"
+      >
         <button
-          class="px-4 py-2 text-sm bg-green-500 hover:bg-green-600 capitalize text-white disabled:bg-green-800 disabled:cursor-not-allowed"
+          class="px-3 py-2 text-sm bg-green-500 hover:bg-green-600 capitalize text-white disabled:bg-green-800 disabled:cursor-not-allowed"
           onclick="randomize()"
         >
           Randomize
@@ -38,7 +50,13 @@
       </div>
     </section>
 
-    <main></main>
+    <h2
+      class="absolute text-4xl md:text-7xl text-gray-300 top-[250px] sm:top-[200px] font-bold left-5"
+    >
+      TC: O(<span id="tc"></span>)
+    </h2>
+
+    <main class="relative"></main>
 
     <script src="./js/index.js"></script>
   </body>
