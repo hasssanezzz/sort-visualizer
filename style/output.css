@@ -699,7 +699,7 @@ main {
   flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  border-width: 2px;
+  border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
   font-size: 0.875rem;
@@ -712,11 +712,11 @@ main {
 }
 
 .bar:nth-child(odd) {
-  background-color: #2e4f4f;
+  background-color: #9DC08B;
 }
 
 .bar:nth-child(even) {
-  background-color: #0e8388;
+  background-color: #609966;
 }
 
 button {

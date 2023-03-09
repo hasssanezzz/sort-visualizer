@@ -291,6 +291,36 @@ async function cocktailShakerSort() {
   setBarColor(0, 0)
 }
 
+async function frequencySort() {
+  IS_SORTING = 1
+
+  const freq = Array(100).fill(0)
+
+  for (let i = 0; i < COUNT; i++) {
+    await sleep()
+
+    setBarColor(i, 1)
+    freq[a[i]]++
+  }
+
+  let p = 0
+
+  for (let j = 0; j < freq.length; j++) {
+    await sleep()
+    for (let i = 0; i < freq[j]; i++) {
+
+      setBarHeight(p, j)
+      setBarColor(p, 1)
+
+      a[p++] = j
+
+    }
+  }
+
+  IS_SORTING = 0
+  setBarColor(0, 0)
+}
+
 // MAIN
 
 const algosMap = {
@@ -300,6 +330,7 @@ const algosMap = {
   Cocktail: cocktailShakerSort,
   insertion: insertionSort,
   'Binary Insertion': binartInsertionSort,
+  frequency: frequencySort,
 }
 
 const algosTCMap = {
@@ -312,12 +343,13 @@ const algosTCMap = {
 }
 
 const algoTCMap = {
-  selection: "n*n",
-  bubble: "n*n",
-  'Odd Even': "n*n",
-  Cocktail: "n*n",
-  insertion: "n*n",
-  'Binary Insertion': "n*log(n)",
+  selection: 'n*n',
+  bubble: 'n*n',
+  'Odd Even': 'n*n',
+  Cocktail: 'n*n',
+  insertion: 'n*n',
+  'Binary Insertion': 'n*log(n)',
+  frequency: 'n',
 }
 
 ;(function initButtons() {
@@ -338,7 +370,7 @@ async function startSort(algo) {
   const algoButtons = document.querySelectorAll('button')
 
   algoButtons.forEach((ele) => (ele.disabled = true))
-  document.querySelector("#tc").innerHTML = algoTCMap[algo]
+  document.querySelector('#tc').innerHTML = algoTCMap[algo]
   await algosMap[algo]()
   algoButtons.forEach((ele) => (ele.disabled = false))
 }
