@@ -321,6 +321,41 @@ async function frequencySort() {
   setBarColor(0, 0)
 }
 
+async function shellSort() {
+  IS_SORTING = 1
+
+  let gap = 1;
+
+  while(gap * 3 + 1 < a.length)
+    gap  = gap * 3 + 1
+
+  while(gap > 0){
+
+    for (let i = gap; i < a.length; i++) {
+      let j = i;
+
+      while (j > 0 && a[j] <= a[j - gap]) {
+
+        setBarColor(j, 1)
+        setBarColor(j - gap, 1)
+
+	await sleep();
+	swap(j, j - gap);
+
+        setBarHeight(j, a[j])
+        setBarHeight(j - gap, a[j - gap])
+
+        setBarColor(j, 0)
+        setBarColor(j - gap, 0)
+
+	j-=gap;
+      }
+    }
+    gap = Math.floor((gap - 1)/3)
+  }
+  IS_SORTING = 0
+}
+
 // MAIN
 
 const algosMap = {
@@ -331,6 +366,7 @@ const algosMap = {
   insertion: insertionSort,
   'Binary Insertion': binartInsertionSort,
   frequency: frequencySort,
+  shellSort: shellSort,
 }
 
 const algosTCMap = {
@@ -340,6 +376,7 @@ const algosTCMap = {
   Cocktail: cocktailShakerSort,
   insertion: insertionSort,
   'Binary Insertion': binartInsertionSort,
+  'Shell': shellSort,
 }
 
 const algoTCMap = {
@@ -350,6 +387,7 @@ const algoTCMap = {
   insertion: 'n*n',
   'Binary Insertion': 'n*log(n)',
   frequency: 'n',
+  shellSort: 'complexity is dependent on the size of array and gap',
 }
 
 ;(function initButtons() {
