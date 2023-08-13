@@ -356,6 +356,72 @@ async function shellSort() {
   IS_SORTING = 0
 }
 
+async function heapSort(){
+  IS_SORTING = 1
+  async function buildMaxHeap(a) {	
+	const len = a.length;
+	for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
+		await heapify(a, len, i);
+	}
+  }
+
+  async function heapify(arr, n, i) {
+	let largest = i;
+	const left = 2 * i + 1;
+	const right = 2 * i + 2;
+
+	if (left < n && arr[left] > arr[largest]) {
+	  largest = left;
+	}
+
+	if (right < n && arr[right] > arr[largest]) {
+	  largest = right;
+	}
+
+	if (largest !== i) {
+	  //barArr[i].style.backgroundColor = curcolor;
+	  //barArr[largest].style.backgroundColor = curcolor;
+          setBarColor(i, 1)
+          setBarColor(largest, 1)
+	  await sleep();
+	  swap(i, largest);
+
+          setBarHeight(i, a[i])
+          setBarHeight(largest, a[largest])
+
+          setBarColor(i, 0)
+          setBarColor(largest, 0)
+	  //barArr[i].style.backgroundColor = barcolor;
+	  //barArr[largest].style.backgroundColor = barcolor;
+
+	  await heapify(arr, n, largest);
+	}
+  }
+
+  const n = a.length;
+
+  await buildMaxHeap(a);
+
+  for (let i = n - 1; i > 0; i--) {
+	//barArr[0].style.backgroundColor = curcolor;
+	//barArr[i].style.backgroundColor = curcolor;
+        setBarColor(0, 1)
+        setBarColor(i, 1)
+	await sleep();
+	swap(0, i);
+
+        setBarHeight(0, a[0])
+        setBarHeight(i, a[i])
+
+        setBarColor(0, 0)
+        setBarColor(i, 0)
+	//barArr[0].style.backgroundColor = barcolor;
+	//barArr[i].style.backgroundColor = barcolor;
+	await heapify(a, i, 0);
+  }
+  IS_SORTING = 0
+}
+
 // MAIN
 
 const algosMap = {
@@ -367,6 +433,7 @@ const algosMap = {
   'Binary Insertion': binartInsertionSort,
   frequency: frequencySort,
   shellSort: shellSort,
+  heapSort: heapSort
 }
 
 const algosTCMap = {
@@ -377,6 +444,7 @@ const algosTCMap = {
   insertion: insertionSort,
   'Binary Insertion': binartInsertionSort,
   'Shell': shellSort,
+  'Heap': heapSort,
 }
 
 const algoTCMap = {
@@ -388,6 +456,7 @@ const algoTCMap = {
   'Binary Insertion': 'n*log(n)',
   frequency: 'n',
   shellSort: 'complexity is dependent on the size of array and gap',
+  heapSort: 'n*log(n)',
 }
 
 ;(function initButtons() {
