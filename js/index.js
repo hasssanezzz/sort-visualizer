@@ -359,43 +359,39 @@ async function shellSort() {
 async function heapSort(){
   IS_SORTING = 1
   async function buildMaxHeap(a) {	
-	const len = a.length;
-	for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
-		await heapify(a, len, i);
-	}
+    const len = a.length;
+    for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
+      await heapify(a, len, i);
+    }
   }
 
   async function heapify(arr, n, i) {
-	let largest = i;
-	const left = 2 * i + 1;
-	const right = 2 * i + 2;
+    let largest = i;
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
 
-	if (left < n && arr[left] > arr[largest]) {
-	  largest = left;
-	}
+    if (left < n && arr[left] > arr[largest]) {
+      largest = left;
+    }
 
-	if (right < n && arr[right] > arr[largest]) {
-	  largest = right;
-	}
+    if (right < n && arr[right] > arr[largest]) {
+      largest = right;
+    }
 
-	if (largest !== i) {
-	  //barArr[i].style.backgroundColor = curcolor;
-	  //barArr[largest].style.backgroundColor = curcolor;
-          setBarColor(i, 1)
-          setBarColor(largest, 1)
-	  await sleep();
-	  swap(i, largest);
+    if (largest !== i) {
+      setBarColor(i, 1)
+      setBarColor(largest, 1)
+      await sleep();
+      swap(i, largest);
 
-          setBarHeight(i, a[i])
-          setBarHeight(largest, a[largest])
+      setBarHeight(i, a[i])
+      setBarHeight(largest, a[largest])
 
-          setBarColor(i, 0)
-          setBarColor(largest, 0)
-	  //barArr[i].style.backgroundColor = barcolor;
-	  //barArr[largest].style.backgroundColor = barcolor;
+      setBarColor(i, 0)
+      setBarColor(largest, 0)
 
-	  await heapify(arr, n, largest);
-	}
+      await heapify(arr, n, largest);
+    }
   }
 
   const n = a.length;
@@ -403,23 +399,49 @@ async function heapSort(){
   await buildMaxHeap(a);
 
   for (let i = n - 1; i > 0; i--) {
-	//barArr[0].style.backgroundColor = curcolor;
-	//barArr[i].style.backgroundColor = curcolor;
-        setBarColor(0, 1)
-        setBarColor(i, 1)
-	await sleep();
-	swap(0, i);
+    setBarColor(0, 1)
+    setBarColor(i, 1)
+    await sleep();
+    swap(0, i);
 
-        setBarHeight(0, a[0])
-        setBarHeight(i, a[i])
+    setBarHeight(0, a[0])
+    setBarHeight(i, a[i])
 
-        setBarColor(0, 0)
-        setBarColor(i, 0)
-	//barArr[0].style.backgroundColor = barcolor;
-	//barArr[i].style.backgroundColor = barcolor;
-	await heapify(a, i, 0);
+    setBarColor(0, 0)
+    setBarColor(i, 0)
+    await heapify(a, i, 0);
   }
   IS_SORTING = 0
+}
+
+async function quickSort(left = 0, right = a.length - 1) {
+  if (left < right) {
+    const partitionIndex = await partition(a, left, right);
+
+    await quickSort(left, partitionIndex - 1);
+    await quickSort(partitionIndex + 1, right);
+  }
+}
+  
+async function partition(arr, left, right) {
+  const pivot = arr[right];
+
+  let i = left - 1;
+
+  for (let j = left; j < right; j++) {
+    if (arr[j] < pivot) {
+      i++; 
+      swap(i, j);
+      setBarHeight(i, arr[i])
+      setBarHeight(j, arr[j])
+    }
+    await sleep()
+  }
+	
+  swap(i + 1, right);
+  setBarHeight(i + 1, arr[i + 1])
+  setBarHeight(right, arr[right])
+  return i + 1;
 }
 
 // MAIN
@@ -433,7 +455,8 @@ const algosMap = {
   'Binary Insertion': binartInsertionSort,
   frequency: frequencySort,
   shellSort: shellSort,
-  heapSort: heapSort
+  heapSort: heapSort,
+  quickSort: quickSort
 }
 
 const algosTCMap = {
@@ -445,6 +468,7 @@ const algosTCMap = {
   'Binary Insertion': binartInsertionSort,
   'Shell': shellSort,
   'Heap': heapSort,
+  'Quick': quickSort,
 }
 
 const algoTCMap = {
@@ -457,6 +481,7 @@ const algoTCMap = {
   frequency: 'n',
   shellSort: 'complexity is dependent on the size of array and gap',
   heapSort: 'n*log(n)',
+  quickSort: 'n*log(n)',
 }
 
 ;(function initButtons() {
