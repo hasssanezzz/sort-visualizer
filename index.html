@@ -1,63 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style/output.css" />
-    <title>sort.exe by Hassan Ezz</title>
-  </head>
-  <body>
-    <section class="p-5 space-y-5">
-      <div class="flex gap-5">
-        <div class="flex flex-col gap-2">
-          <label for="">Bar count</label>
-          <input
-            id="count"
-            type="number"
-            class="w-full max-w-[100px] border bg-gray-200"
-          />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label for="">Delay (in milliseconds)</label>
-          <input
-            id="delay"
-            type="number"
-            class="w-full max-w-[100px] border bg-gray-200"
-          />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label for="">Show numbers</label>
-          <input
-            id="show-numbers"
-            type="checkbox"
-            class="w-full max-w-[100px] border bg-gray-200"
-          />
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sort.exe by hasssanezzz</title>
+</head>
+
+<body>
+
+  <nav class="w-full h-[120px] bg-indigo-500 flex items-center justify-between gap-3 p-5 overflow-auto">
+
+    <div class="flex items-center gap-3">
+      <div class="flex flex-col items-center gap-2">
+        <label for="" class="text-white font-bold">Bars</label>
+        <input id="count" min="5" type="number"
+          class="max-w-[70px] bg-white p-1 rounded-md shadow-md text-center" />
       </div>
 
-      <div
-        id="buttons"
-        class="flex gap-1 divide-black flex-wrap text-sm"
-        style="z-index: 100"
-      >
-        <button
-          class="px-3 py-2 text-sm bg-green-500 hover:bg-green-600 capitalize text-white disabled:bg-green-800 disabled:cursor-not-allowed"
-          onclick="randomize()"
-        >
-          Randomize
-        </button>
+      <div class="flex flex-col items-center gap-2">
+        <label for="" class="text-white font-bold">Delay(ms)</label>
+        <input id="delay" min="0" type="number"
+          class="max-w-[70px] bg-white p-1 rounded-md shadow-md text-center" />
       </div>
-    </section>
 
-    <h2
-      class="absolute text-4xl md:text-7xl text-gray-300 top-[250px] sm:top-[200px] font-bold left-5"
-    >
-      TC: O(<span id="tc"></span>)
-    </h2>
 
-    <main class="relative"></main>
+      <div class="flex flex-col items-center gap-2">
+        <label for="" class="text-white font-bold">Algorithm</label>
+        <select id="algo-select" class="bg-white p-1 rounded-md shadow-md text-center capitalize">
+        </select>
+      </div>
+    </div>
 
-    <script src="./js/index.js"></script>
-  </body>
+    <button id="randomize-btn"
+      class="px-6 py-2 bg-white text-indigo-500 rounded-md font-semibold shadow-md disabled:bg-white disabled:cursor-not-allowed">
+      Randomize
+    </button>
+  </nav>
+
+
+  <h2 class="absolute text-4xl md:text-7xl text-gray-300 top-[250px] sm:top-[200px] font-bold left-5">
+    TC: O(<span id="tc">n*n</span>)
+  </h2>
+
+  <main class="relative"></main>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+
 </html>

@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  height: calc(100vh - 10px);
+  @apply flex flex-col;
+}
+
+section {
+  @apply min-h-[200px];
+}
+
+main {
+  @apply p-5 w-full flex-auto flex items-end;
+}
+
+.bar {
+  @apply flex-auto flex items-center justify-center text-sm text-white transition-[height] duration-100 rounded-t-md shadow-xl;
+}
+
+.bar:nth-child(1n) {
+  @apply bg-indigo-400
+}
+
+.bar:nth-child(2n) {
+  @apply bg-indigo-600
+}
+
+.bar:nth-child(3n) {
+  @apply bg-indigo-500
+}
