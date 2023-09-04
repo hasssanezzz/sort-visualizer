@@ -464,6 +464,7 @@ function initButtons() {
 
   selectAlgoDom.addEventListener('change', (e) => {
     startSort(e.target.value)
+    e.target.value = ''
   })
 }
 

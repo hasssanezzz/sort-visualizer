@@ -11,6 +11,10 @@ section {
   @apply min-h-[200px];
 }
 
+option {
+  @apply capitalize
+}
+
 main {
   @apply p-5 w-full flex-auto flex items-end;
 }
