@@ -9,14 +9,14 @@ The project aims to provide a visual representation of sorting algorithms to hel
 ### Features
 
 * Visualize various sorting algorithms in action.
-* Randomize input array with custom size.
+* Shuffle input array with custom size.
 * Adjustable speed to control the animation.
 * Step-by-step mode for a detailed understanding of the sorting process.
 * Highlight key steps and comparisons during sorting.
 
 ### Getting started
 
-You can play with the [live deme](https://sortv.vercel.app/)
+You can play with the [live demo](https://sortv.vercel.app/)
 
 ### Algorithms
 
@@ -25,7 +25,6 @@ You can play with the [live deme](https://sortv.vercel.app/)
 1. Odd Even Sort
 1. Cocktail Sort
 1. Insertion Sort
-1. Binary Insertion Sort
 1. Frequency Sort
 1. Shell Sort
 1. Heap Sort
